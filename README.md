@@ -5,6 +5,7 @@ adapt to low-resolution noisy imaging, refine with FixMatch, and run inference
 on JADES (or other high redshift domain surveys) cutouts.
 
 ## Directory structure:
+```
 └── galaxy_morphology_cvt/
     ├── README.md
     ├── environment.yml
@@ -58,7 +59,7 @@ on JADES (or other high redshift domain surveys) cutouts.
         ├── jades_infer.py
         ├── test.py
         └── train.py
-
+```
 
 ## Classes
 
