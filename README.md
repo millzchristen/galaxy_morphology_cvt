@@ -1,12 +1,64 @@
-# galaxy_morphology_cvt
+# Galaxy Morphology CvT
 
-Minimal reproduction code for galaxy morphology classification with a
-[CvT-13](https://arxiv.org/abs/2103.15808) backbone: fine-tune on Galaxy Zoo 2,
+Galaxy morphology classification implementation of trained convolutional vision transformer with [CvT: Introducing Convolutions to Vision Transformers](https://arxiv.org/abs/2103.15808) backbone: fine-tune on Galaxy Zoo 2,
 adapt to low-resolution noisy imaging, refine with FixMatch, and run inference
-on JADES cutouts.
+on JADES (or other high redshift domain surveys) cutouts.
 
-This repository contains **code and configs only**. Datasets and trained
-checkpoints are not included (see below).
+## Directory structure:
+└── galaxy_morphology_cvt/
+    ├── README.md
+    ├── environment.yml
+    ├── requirements.txt
+    ├── configs/
+    │   └── cvt-13-224x224.yaml
+    ├── lib/
+    │   ├── config/
+    │   │   ├── __init__.py
+    │   │   └── default.py
+    │   ├── core/
+    │   │   ├── evaluate.py
+    │   │   ├── function.py
+    │   │   └── loss.py
+    │   ├── dataset/
+    │   │   ├── __init__.py
+    │   │   ├── build.py
+    │   │   ├── galaxy_zoo.py
+    │   │   ├── imagenet/
+    │   │   │   └── real_labels.py
+    │   │   ├── samplers/
+    │   │   │   ├── __init__.py
+    │   │   │   └── ra_sampler.py
+    │   │   └── transformas/
+    │   │       ├── __init__.py
+    │   │       └── build.py
+    │   ├── models/
+    │   │   ├── __init__.py
+    │   │   ├── build.py
+    │   │   ├── cls_cvt.py
+    │   │   └── registry.py
+    │   ├── optim/
+    │   │   ├── __init__.py
+    │   │   └── build.py
+    │   ├── scheduler/
+    │   │   ├── __init__.py
+    │   │   └── build.py
+    │   └── utils/
+    │       ├── comm.py
+    │       └── utils.py
+    ├── scripts/
+    │   ├── finetune.sh
+    │   ├── fixmatch.sh
+    │   ├── jades_infer.sh
+    │   ├── test.sh
+    │   └── train.sh
+    └── tools/
+        ├── _init_paths.py
+        ├── finetune.py
+        ├── fixmatch.py
+        ├── jades_infer.py
+        ├── test.py
+        └── train.py
+
 
 ## Classes
 
@@ -36,16 +88,11 @@ Download ImageNet-pretrained CvT-13 weights into `pretrain/`:
 pretrain/CvT-13-224x224-IN-1k.pth
 ```
 
-Upstream weights: [Microsoft CvT model zoo](https://github.com/microsoft/CvT).
-
-## Data layout (not in git)
+## Recommended data layout
 
 ```
 data/
-  galaxy_zoo/
-    train/class{1-5}/
-    val/class{1-5}/
-  imagenet/                 # ImageFolder layout used by FixMatch / test.py
+  galaxy_zoo/              
     train/class{1-5}/
     val/class{1-5}/
     test/class{1-5}/
@@ -56,7 +103,7 @@ data/
     cutout_metadata.json
 pretrain/
   CvT-13-224x224-IN-1k.pth
-runs/                       # created by training (gitignored)
+runs/         
 ```
 
 ## Reproduce the pipeline
@@ -145,13 +192,4 @@ archives (baseline / adapted / FixMatch) will be linked here when published
 
 - CvT architecture: Wu et al., *CvT: Introducing Convolutions to Vision Transformers*, ICCV 2021.
 - Upstream code: [microsoft/CvT](https://github.com/microsoft/CvT).
-- This morphology adaptation pipeline: cite the associated paper / thesis when available.
-
-## Layout
-
-```
-configs/          # CvT-13 YAML
-lib/              # model, data, optim, utils
-tools/            # train, finetune, fixmatch, test, jades_infer
-scripts/          # optional SLURM/bash wrappers
-```
+- This morphology adaptation pipeline: WILL CITE WHEN PUBLISHED 
