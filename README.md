@@ -1,4 +1,4 @@
-# jades-cvt-repro
+# galaxy_morphology_cvt
 
 Minimal reproduction code for galaxy morphology classification with a
 [CvT-13](https://arxiv.org/abs/2103.15808) backbone: fine-tune on Galaxy Zoo 2,
